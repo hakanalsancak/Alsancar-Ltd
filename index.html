@@ -11,17 +11,37 @@
 <body>
     <!-- Header / Hero Section -->
     <header class="hero">
-        <img src="assets/Favicon%20and%20logo.png" alt="Alsancar Ltd Logo" class="logo">
-        <div class="container">
-            <h1 class="company-name">Alsancar Ltd</h1>
-            <p class="tagline">Building mobile and web application startups</p>
+        <!-- Top Navigation Bar -->
+        <nav class="top-nav">
+            <div class="nav-container">
+                <img src="assets/Favicon%20and%20logo.png" alt="Alsancar Ltd Logo" class="logo">
+                <button class="menu-toggle" aria-label="Toggle navigation menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <div class="menu-overlay" id="menu-overlay"></div>
+                <div class="header-nav" id="header-nav">
+                    <a href="#about" class="nav-link">About Us</a>
+                    <a href="#what-we-do" class="nav-link">What We Do</a>
+                    <a href="#company-info" class="nav-link">Company Information</a>
+                    <a href="#contact" class="nav-link">Contact</a>
+                </div>
+            </div>
+        </nav>
+        <!-- Hero Content -->
+        <div class="hero-content">
+            <div class="container">
+                <h1 class="company-name">Alsancar Ltd</h1>
+                <p class="tagline">Building mobile and web application startups</p>
+            </div>
         </div>
     </header>
 
     <!-- Main Content -->
     <main>
         <!-- About Section -->
-        <section class="section about">
+        <section id="about" class="section about">
             <div class="container">
                 <h2>About Us</h2>
                 <p>Alsancar Ltd is a UK-based software company specializing in the development of mobile and web applications. We focus on building innovative software solutions for startup founders and internal product development teams.</p>
@@ -30,7 +50,7 @@
         </section>
 
         <!-- Services Section -->
-        <section class="section services">
+        <section id="what-we-do" class="section services">
             <div class="container">
                 <h2>What We Do</h2>
                 <div class="services-grid">
@@ -55,7 +75,7 @@
         </section>
 
         <!-- Company Information Section -->
-        <section class="section company-info">
+        <section id="company-info" class="section company-info">
             <div class="container">
                 <h2>Company Information</h2>
                 <p>Alsancar Ltd is a private limited company registered in the United Kingdom. We operate as a software development company focused on creating mobile and web applications for businesses and startups.</p>
@@ -63,7 +83,7 @@
         </section>
 
         <!-- Contact Section -->
-        <section class="section contact">
+        <section id="contact" class="section contact">
             <div class="container">
                 <h2>Contact</h2>
                 <p>For inquiries, please reach out to us:</p>
@@ -86,6 +106,68 @@
     <script>
         // Set current year in footer
         document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Mobile menu toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const headerNav = document.getElementById('header-nav');
+        const menuOverlay = document.getElementById('menu-overlay');
+
+        function toggleMenu() {
+            headerNav.classList.toggle('nav-open');
+            menuToggle.classList.toggle('active');
+            menuOverlay.classList.toggle('active');
+        }
+
+        function closeMenu() {
+            headerNav.classList.remove('nav-open');
+            menuToggle.classList.remove('active');
+            menuOverlay.classList.remove('active');
+        }
+
+        menuToggle.addEventListener('click', toggleMenu);
+        
+        menuOverlay.addEventListener('click', closeMenu);
+
+        // Close menu when clicking on a nav link (mobile)
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                if (window.innerWidth <= 768) {
+                    closeMenu();
+                }
+            });
+        });
+
+        // Smooth scroll with custom speed
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const targetPosition = target.offsetTop;
+                    const startPosition = window.pageYOffset;
+                    const distance = targetPosition - startPosition;
+                    const duration = 1500; // 1.5 seconds for slow, smooth transition
+                    let start = null;
+
+                    function animation(currentTime) {
+                        if (start === null) start = currentTime;
+                        const timeElapsed = currentTime - start;
+                        const run = easeInOutCubic(timeElapsed, startPosition, distance, duration);
+                        window.scrollTo(0, run);
+                        if (timeElapsed < duration) requestAnimationFrame(animation);
+                    }
+
+                    function easeInOutCubic(t, b, c, d) {
+                        t /= d / 2;
+                        if (t < 1) return c / 2 * t * t * t + b;
+                        t -= 2;
+                        return c / 2 * (t * t * t + 2) + b;
+                    }
+
+                    requestAnimationFrame(animation);
+                }
+            });
+        });
     </script>
 </body>
 </html>
