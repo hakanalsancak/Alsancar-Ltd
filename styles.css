@@ -174,6 +174,7 @@ body {
 /* Section Styles */
 .section {
     padding: 60px 20px;
+    scroll-margin-top: 100px; /* Account for fixed header */
 }
 
 .section h2 {
@@ -302,6 +303,7 @@ body {
 
     .section {
         padding: 40px 20px;
+        scroll-margin-top: 90px; /* Account for fixed header on tablet */
     }
 
     .section h2 {
@@ -394,6 +396,10 @@ body {
 
     .section h2 {
         font-size: 1.5rem;
+    }
+
+    .section {
+        scroll-margin-top: 80px; /* Account for fixed header on small mobile */
     }
 
     .nav-container {
